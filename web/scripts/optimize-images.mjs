@@ -10,6 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SRC_DIR = path.join(__dirname, "..", "..", "prototype", "assets");
 const OUT_DIR = path.join(__dirname, "..", "public", "images", "dishes");
 const LOGO_OUT = path.join(__dirname, "..", "public", "images", "logo.webp");
+const ICON_OUT = path.join(__dirname, "..", "app", "icon.png");
 
 // id -> source filename (from prototype/Menu.dc.html's IMG map)
 const DISH_IMAGES = {
@@ -62,6 +63,14 @@ async function main() {
     .webp({ quality: 85 })
     .toFile(LOGO_OUT);
   console.log("✓ logo");
+
+  // Browser-tab favicon (Next.js app/icon.png convention).
+  await sharp(path.join(SRC_DIR, "logo.jpeg"))
+    .rotate()
+    .resize(256, 256, { fit: "contain", background: "#000000" })
+    .png()
+    .toFile(ICON_OUT);
+  console.log("✓ icon");
 }
 
 main().catch((err) => {
