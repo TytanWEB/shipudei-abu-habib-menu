@@ -43,6 +43,13 @@ export function DishSheet({
             <>
               <Image src={dish.image.hero} alt="" fill style={{ objectFit: "cover" }} priority />
               <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(140% 140% at 50% 38%, transparent 20%, rgba(6,4,3,.62) 100%), rgba(10,7,6,.22)",
+                }}
+              />
+              <div
                 className="absolute inset-0"
                 style={{ background: "linear-gradient(to top, var(--color-surface) 2%, transparent 55%)" }}
               />
