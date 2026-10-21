@@ -22,16 +22,13 @@ export function DishCard({ dish, lang, onOpen }: { dish: Dish; lang: Lang; onOpe
       style={{ padding: 10 }}
     >
       {dish.image ? (
-        <div style={{ position: "relative", width: 104, height: 104, flex: "none", borderRadius: 14, overflow: "hidden" }}>
-          <Image src={dish.image.thumb} alt="" fill style={{ objectFit: "cover" }} />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(140% 140% at 50% 40%, transparent 25%, rgba(6,4,3,.68) 100%), rgba(10,7,6,.26)",
-            }}
-          />
-        </div>
+        <Image
+          src={dish.image.thumb}
+          alt=""
+          width={104}
+          height={104}
+          style={{ flex: "none", borderRadius: 14, objectFit: "cover" }}
+        />
       ) : (
         <div style={{ width: 104, height: 104, flex: "none", borderRadius: 14, ...STRIPE_BG }} />
       )}

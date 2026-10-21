@@ -39,14 +39,7 @@ async function main() {
   for (const [id, filename] of Object.entries(DISH_IMAGES)) {
     const src = path.join(SRC_DIR, filename);
 
-    // The source photos are shot bright/white-balanced for print, which
-    // reads as a jarring light box against the dark theme. Grade them
-    // moodier so they sit inside the dark cards instead of floating on
-    // top of them (paired with a CSS vignette in DishCard/DishSheet).
-    const grade = sharp(src)
-      .rotate()
-      .modulate({ brightness: 0.88, saturation: 1.05 })
-      .linear(1.06, -12);
+    const grade = sharp(src).rotate();
 
     await grade
       .clone()

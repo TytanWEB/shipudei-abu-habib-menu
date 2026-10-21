@@ -115,6 +115,9 @@ body {
 }
 
 .dish-card {
+  background: var(--color-surface);
+  border: 1px solid rgba(246, 241, 236, 0.09);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
