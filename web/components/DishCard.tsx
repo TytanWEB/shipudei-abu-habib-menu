@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import type { Dish, Lang, TagKind } from "@/data/menu";
+import type { Dish, Lang, TagKind } from "@/lib/menu-types";
 
 const STRIPE_BG: CSSProperties = {
   backgroundColor: "#2a2422",

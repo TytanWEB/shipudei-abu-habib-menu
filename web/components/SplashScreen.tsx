@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { LANGS, T, type Lang } from "@/data/menu";
+import { UI } from "@/lib/ui-strings";
+import { LANGS, type Lang } from "@/lib/menu-types";
 
 export function SplashScreen({
   lang,
@@ -10,7 +11,7 @@ export function SplashScreen({
   tableNo?: string;
   onPick: (lang: Lang) => void;
 }) {
-  const t = T[lang];
+  const t = UI[lang];
 
   return (
     <div
@@ -84,7 +85,7 @@ export function SplashScreen({
                 minHeight: 56,
               }}
             >
-              {T[code].label}
+              {UI[code].label}
             </button>
           ))}
         </div>

@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import { useMenuState } from "@/lib/useMenuState";
+import type { MenuData } from "@/lib/menu-types";
 import { SplashScreen } from "./SplashScreen";
 import { Header } from "./Header";
 import { CategoryIntro } from "./CategoryIntro";
@@ -14,7 +16,12 @@ const FONT_STACKS: Record<string, string> = {
   ar: "var(--font-noto-arabic), var(--font-heebo), var(--font-archivo), system-ui, sans-serif",
 };
 
-export function MenuApp() {
+export function MenuApp({ menuData }: { menuData: MenuData }) {
+  const categories = useMemo(
+    () => [...menuData.categories].sort((a, b) => a.order - b.order),
+    [menuData.categories],
+  );
+
   const {
     lang,
     setLang,
@@ -25,9 +32,19 @@ export function MenuApp() {
     openDish,
     closeDish,
     tableNo,
-  } = useMenuState();
+  } = useMenuState(categories[0]?.id ?? "");
 
   const dir = lang === "en" ? "ltr" : "rtl";
+
+  const activeCategory = categories.find((c) => c.id === category) ?? categories[0];
+  const dishes = useMemo(
+    () =>
+      menuData.dishes
+        .filter((d) => d.categoryId === activeCategory?.id)
+        .sort((a, b) => a.order - b.order),
+    [menuData.dishes, activeCategory?.id],
+  );
+  const openDish_ = openDishId ? menuData.dishes.find((d) => d.id === openDishId) : undefined;
 
   return (
     <div
@@ -49,14 +66,15 @@ export function MenuApp() {
         <Header
           lang={lang}
           tableNo={tableNo}
-          category={category}
+          categories={categories}
+          category={activeCategory?.id ?? ""}
           onLangChange={setLang}
           onCategoryChange={setCategory}
         />
-        <CategoryIntro lang={lang} category={category} />
-        <DishList lang={lang} category={category} onOpenDish={openDish} />
+        {activeCategory && <CategoryIntro lang={lang} category={activeCategory} />}
+        <DishList lang={lang} dishes={dishes} onOpenDish={openDish} />
 
-        {openDishId && <DishSheet dishId={openDishId} lang={lang} onClose={closeDish} />}
+        {openDishId && <DishSheet dish={openDish_} lang={lang} onClose={closeDish} />}
 
         <Footer lang={lang} />
       </div>

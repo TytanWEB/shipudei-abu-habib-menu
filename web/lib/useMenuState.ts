@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Category, Lang } from "@/data/menu";
+import type { Lang } from "@/lib/menu-types";
 
 const LANG_STORAGE_KEY = "menu:lang";
 const VALID_LANGS: readonly string[] = ["he", "en", "ar"];
@@ -10,10 +10,10 @@ function isLang(value: string | null): value is Lang {
   return !!value && VALID_LANGS.includes(value);
 }
 
-export function useMenuState() {
+export function useMenuState(defaultCategory: string) {
   const [lang, setLangState] = useState<Lang>("he");
   const [splashOpen, setSplashOpen] = useState(true);
-  const [category, setCategory] = useState<Category>("grill");
+  const [category, setCategory] = useState<string>(defaultCategory);
   const [openDishId, setOpenDishIdState] = useState<string | null>(null);
   const [tableNo, setTableNo] = useState<string | undefined>(undefined);
   const pushedDishRef = useRef(false);

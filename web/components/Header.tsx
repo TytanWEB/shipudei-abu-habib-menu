@@ -1,20 +1,23 @@
 import Image from "next/image";
-import { CATEGORIES, LANGS, T, type Category, type Lang } from "@/data/menu";
+import { UI } from "@/lib/ui-strings";
+import { LANGS, type Category, type Lang } from "@/lib/menu-types";
 
 export function Header({
   lang,
   tableNo,
+  categories,
   category,
   onLangChange,
   onCategoryChange,
 }: {
   lang: Lang;
   tableNo?: string;
-  category: Category;
+  categories: Category[];
+  category: string;
   onLangChange: (lang: Lang) => void;
-  onCategoryChange: (category: Category) => void;
+  onCategoryChange: (category: string) => void;
 }) {
-  const t = T[lang];
+  const t = UI[lang];
 
   return (
     <div
@@ -75,7 +78,7 @@ export function Header({
                   color: active ? "#fff" : "var(--color-text-3)",
                 }}
               >
-                {T[code].short}
+                {UI[code].short}
               </button>
             );
           })}
@@ -83,13 +86,13 @@ export function Header({
       </div>
 
       <div className="no-scrollbar flex gap-2 overflow-x-auto" style={{ padding: "4px 18px 14px" }}>
-        {CATEGORIES.map((cat) => {
-          const active = cat === category;
+        {categories.map((cat) => {
+          const active = cat.id === category;
           return (
             <button
-              key={cat}
+              key={cat.id}
               type="button"
-              onClick={() => onCategoryChange(cat)}
+              onClick={() => onCategoryChange(cat.id)}
               className="category-chip cursor-pointer whitespace-nowrap rounded-full"
               style={{
                 fontSize: 15,
@@ -101,7 +104,7 @@ export function Header({
                 fontWeight: active ? 700 : 500,
               }}
             >
-              {t.cats[cat]}
+              {cat.label[lang]}
             </button>
           );
         })}

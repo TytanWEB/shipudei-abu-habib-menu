@@ -1,4 +1,5 @@
-import { T, type Lang } from "@/data/menu";
+import { UI } from "@/lib/ui-strings";
+import type { Lang } from "@/lib/menu-types";
 
 export function Footer({ lang }: { lang: Lang }) {
   return (
@@ -10,7 +11,7 @@ export function Footer({ lang }: { lang: Lang }) {
       }}
     >
       <span className="font-light" style={{ fontSize: 12, color: "var(--color-text-4)" }}>
-        {T[lang].footer}
+        {UI[lang].footer}
       </span>
     </div>
   );

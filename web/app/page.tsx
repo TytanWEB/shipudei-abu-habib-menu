@@ -1,5 +1,9 @@
 import { MenuApp } from "@/components/MenuApp";
+import { readMenuData } from "@/lib/menu-store";
 
-export default function Home() {
-  return <MenuApp />;
+export const revalidate = 60;
+
+export default async function Home() {
+  const menuData = await readMenuData();
+  return <MenuApp menuData={menuData} />;
 }

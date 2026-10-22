@@ -1,18 +1,18 @@
 import { useRef, type TouchEvent } from "react";
 import Image from "next/image";
-import { findDish, T, type Lang } from "@/data/menu";
+import { UI } from "@/lib/ui-strings";
+import type { Dish, Lang } from "@/lib/menu-types";
 
 export function DishSheet({
-  dishId,
+  dish,
   lang,
   onClose,
 }: {
-  dishId: string;
+  dish: Dish | undefined;
   lang: Lang;
   onClose: () => void;
 }) {
-  const dish = findDish(dishId);
-  const t = T[lang];
+  const t = UI[lang];
   const touchStartY = useRef<number | null>(null);
 
   if (!dish) return null;

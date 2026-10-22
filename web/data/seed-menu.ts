@@ -1,42 +1,58 @@
-// Copied verbatim from prototype/Menu.dc.html's DATA/T constants.
-// Dishes and prices are placeholders written for the design handoff —
-// confirm the real menu with the owner before launch.
+// Initial content for the Blob-backed menu store, migrated from the
+// original static data/menu.ts. Consumed once by scripts/seed-menu.mjs;
+// the live site reads from Blob after that, not from this file.
+import type { Category, Dish, MenuData } from "@/lib/menu-types";
 
-export type Lang = "he" | "en" | "ar";
-export type L10n = Record<Lang, string>;
-export type Category = "starters" | "grill" | "drinks";
-export type TagKind = "hot" | "veg" | "plain";
-
-export interface Dish {
-  id: string;
-  category: Category;
-  price: number;
-  image?: { thumb: string; hero: string };
-  tag: L10n;
-  tagKind: TagKind;
-  name: L10n;
-  short: L10n;
-  long: L10n;
-  facts: Record<Lang, string[]>;
-}
-
-export const LANGS: Lang[] = ["he", "en", "ar"];
-export const CATEGORIES: Category[] = ["starters", "grill", "drinks"];
-
-function dishImage(id: string): { thumb: string; hero: string } {
+function img(id: string) {
   return {
     thumb: `/images/dishes/${id}-thumb.webp`,
     hero: `/images/dishes/${id}-hero.webp`,
   };
 }
 
-export const DISHES: Dish[] = [
-  // --- Starters ---
+export const SEED_CATEGORIES: Category[] = [
+  {
+    id: "starters",
+    order: 0,
+    label: { he: "ראשונות", en: "Starters", ar: "مقبلات" },
+    title: { he: "מנות ראשונות", en: "Starters", ar: "المقبلات" },
+    blurb: {
+      he: "סלטים, מרקים ודברים קטנים שמגיעים לשולחן ראשונים — עם פיתה מהטאבון.",
+      en: "Salads, soups and small things that hit the table first — with taboon bread.",
+      ar: "سلطات وشوربات وأطباق صغيرة تصل أولاً — مع خبز الطابون.",
+    },
+  },
+  {
+    id: "grill",
+    order: 1,
+    label: { he: "על האש", en: "Grill", ar: "على الفحم" },
+    title: { he: "על האש", en: "From the Grill", ar: "على الفحم" },
+    blurb: {
+      he: "הכול נצלה על פחמי אלון, לפי הזמנה. זמן המתנה 12–18 דקות.",
+      en: "Everything is fired over oak charcoal to order. Expect 12–18 minutes.",
+      ar: "كل شيء يشوى على فحم البلوط عند الطلب. الانتظار ١٢–١٨ دقيقة.",
+    },
+  },
+  {
+    id: "drinks",
+    order: 2,
+    label: { he: "שתייה", en: "Drinks", ar: "مشروبات" },
+    title: { he: "שתייה קלה", en: "Cold & Hot Drinks", ar: "مشروبات باردة وساخنة" },
+    blurb: {
+      he: "סחיטות טריות, סודה ביתית ותה מרווה. מילוי חוזר על חשבון הבית.",
+      en: "Fresh-squeezed juice, house soda and sage tea. Refills on the house.",
+      ar: "عصائر طازجة وصودا بيتية وشاي مريمية. التعبئة على حساب البيت.",
+    },
+  },
+];
+
+export const SEED_DISHES: Dish[] = [
   {
     id: "s1",
-    category: "starters",
+    categoryId: "starters",
+    order: 0,
     price: 32,
-    image: dishImage("s1"),
+    image: img("s1"),
     tag: { he: "צמחוני", en: "Veg", ar: "نباتي" },
     tagKind: "veg",
     name: { he: "חומוס מסבחה", en: "Masabacha Hummus", ar: "حمص مسبحة" },
@@ -58,9 +74,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "s2",
-    category: "starters",
+    categoryId: "starters",
+    order: 1,
     price: 28,
-    image: dishImage("s2"),
+    image: img("s2"),
     tag: { he: "לשולחן", en: "To share", ar: "للمشاركة" },
     tagKind: "plain",
     name: { he: "סלטי הבית", en: "House Salads", ar: "سلطات البيت" },
@@ -82,9 +99,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "s3",
-    category: "starters",
+    categoryId: "starters",
+    order: 2,
     price: 46,
-    image: dishImage("s3"),
+    image: img("s3"),
     tag: { he: "חריף", en: "Spicy", ar: "حار" },
     tagKind: "hot",
     name: { he: "נקניקיות חריפות", en: "Merguez Sausage", ar: "نقانق حارة" },
@@ -106,9 +124,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "s4",
-    category: "starters",
+    categoryId: "starters",
+    order: 3,
     price: 34,
-    image: dishImage("s4"),
+    image: img("s4"),
     tag: { he: "קלאסי", en: "Classic", ar: "كلاسيكي" },
     tagKind: "plain",
     name: {
@@ -134,9 +153,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "s5",
-    category: "starters",
+    categoryId: "starters",
+    order: 4,
     price: 42,
-    image: dishImage("s5"),
+    image: img("s5"),
     tag: { he: "לאמיצים", en: "Bold", ar: "للجريئين" },
     tagKind: "plain",
     name: { he: "כבד עוף בבצל", en: "Chicken Liver & Onion", ar: "كبد دجاج بالبصل" },
@@ -158,9 +178,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "s6",
-    category: "starters",
+    categoryId: "starters",
+    order: 5,
     price: 38,
-    image: dishImage("s6"),
+    image: img("s6"),
     tag: { he: "חורף", en: "Winter", ar: "شتاء" },
     tagKind: "plain",
     name: { he: "מרק קובה סלק", en: "Beetroot Kubbeh Soup", ar: "شوربة كبة شمندر" },
@@ -177,12 +198,12 @@ export const DISHES: Dish[] = [
     },
   },
 
-  // --- Grill ---
   {
     id: "g1",
-    category: "grill",
+    categoryId: "grill",
+    order: 0,
     price: 78,
-    image: dishImage("g1"),
+    image: img("g1"),
     tag: { he: "הכי נמכר", en: "Best seller", ar: "الأكثر طلباً" },
     tagKind: "hot",
     name: { he: "קבב חלבי כבש", en: "Lamb Kebab", ar: "كباب ضأن" },
@@ -204,9 +225,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "g2",
-    category: "grill",
+    categoryId: "grill",
+    order: 1,
     price: 72,
-    image: dishImage("g2"),
+    image: img("g2"),
     tag: { he: "לילדים גם", en: "Kids like it", ar: "يحبه الأطفال" },
     tagKind: "plain",
     name: { he: "פרגית בשום ולימון", en: "Pargit — Garlic & Lemon", ar: "برجية بالثوم والليمون" },
@@ -228,9 +250,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "g3",
-    category: "grill",
+    categoryId: "grill",
+    order: 2,
     price: 139,
-    image: dishImage("g3"),
+    image: img("g3"),
     tag: { he: "פרימיום", en: "Premium", ar: "ممتاز" },
     tagKind: "plain",
     name: { he: "אנטריקוט מיושן", en: "Aged Entrecôte", ar: "انتريكوت معتق" },
@@ -252,9 +275,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "g4",
-    category: "grill",
+    categoryId: "grill",
+    order: 3,
     price: 96,
-    image: dishImage("g4"),
+    image: img("g4"),
     tag: { he: "לשניים", en: "For two", ar: "لشخصين" },
     tagKind: "plain",
     name: { he: "מעורב ירושלמי", en: "Jerusalem Mixed Grill", ar: "مشاوي مشكلة" },
@@ -276,9 +300,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "g5",
-    category: "grill",
+    categoryId: "grill",
+    order: 4,
     price: 154,
-    image: dishImage("g5"),
+    image: img("g5"),
     tag: { he: "על האש", en: "Charcoal", ar: "على الفحم" },
     tagKind: "plain",
     name: { he: "צלעות טלה", en: "Lamb Chops", ar: "ريش غنم" },
@@ -300,9 +325,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "g6",
-    category: "grill",
+    categoryId: "grill",
+    order: 5,
     price: 84,
-    image: dishImage("g6"),
+    image: img("g6"),
     tag: { he: "קלאסי", en: "Classic", ar: "كلاسيكي" },
     tagKind: "plain",
     name: { he: "שישליק בקר", en: "Beef Shishlik", ar: "شيشليك لحم" },
@@ -323,11 +349,12 @@ export const DISHES: Dish[] = [
     },
   },
 
-  // --- Drinks (no photos — striped placeholder) ---
   {
     id: "d1",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 0,
     price: 18,
+    image: null,
     tag: { he: "הבית", en: "House", ar: "البيت" },
     tagKind: "veg",
     name: { he: "לימונענע", en: "Lemon–Mint", ar: "ليمون بالنعناع" },
@@ -349,8 +376,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "d2",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 1,
     price: 14,
+    image: null,
     tag: { he: "קר", en: "Cold", ar: "بارد" },
     tagKind: "plain",
     name: { he: "סודה בטעמים", en: "Flavoured Soda", ar: "صودا بنكهات" },
@@ -372,8 +401,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "d3",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 2,
     price: 16,
+    image: null,
     tag: { he: "ללא סוכר", en: "No sugar", ar: "بدون سكر" },
     tagKind: "veg",
     name: { he: "תה קר מרווה", en: "Iced Sage Tea", ar: "شاي مريمية بارد" },
@@ -391,8 +422,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "d4",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 3,
     price: 13,
+    image: null,
     tag: { he: "פחית", en: "Can", ar: "علبة" },
     tagKind: "plain",
     name: { he: "משקאות קלים", en: "Soft Drinks", ar: "مشروبات غازية" },
@@ -414,8 +447,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "d5",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 4,
     price: 12,
+    image: null,
     tag: { he: "מים", en: "Water", ar: "مياه" },
     tagKind: "plain",
     name: { he: "מים מינרלים", en: "Mineral Water", ar: "مياه معدنية" },
@@ -437,8 +472,10 @@ export const DISHES: Dish[] = [
   },
   {
     id: "d6",
-    category: "drinks",
+    categoryId: "drinks",
+    order: 5,
     price: 15,
+    image: null,
     tag: { he: "חם", en: "Hot", ar: "ساخن" },
     tagKind: "veg",
     name: { he: "תה נענע בכוס", en: "Mint Tea", ar: "شاي نعناع" },
@@ -460,78 +497,7 @@ export const DISHES: Dish[] = [
   },
 ];
 
-interface Translation {
-  dir: "rtl" | "ltr";
-  short: string;
-  label: string;
-  cats: Record<Category, string>;
-  titles: Record<Category, string>;
-  blurbs: Record<Category, string>;
-  splash: string;
-  close: string;
-  hours: string;
-  allergen: string;
-  footer: string;
-}
-
-export const T: Record<Lang, Translation> = {
-  he: {
-    dir: "rtl",
-    short: "עב",
-    label: "עברית",
-    cats: { starters: "ראשונות", grill: "על האש", drinks: "שתייה" },
-    titles: { starters: "מנות ראשונות", grill: "על האש", drinks: "שתייה קלה" },
-    blurbs: {
-      starters: "סלטים, מרקים ודברים קטנים שמגיעים לשולחן ראשונים — עם פיתה מהטאבון.",
-      grill: "הכול נצלה על פחמי אלון, לפי הזמנה. זמן המתנה 12–18 דקות.",
-      drinks: "סחיטות טריות, סודה ביתית ותה מרווה. מילוי חוזר על חשבון הבית.",
-    },
-    splash: "שבו, תנשמו. הבשר כבר על הפחמים.",
-    close: "חזרה לתפריט",
-    hours: "12:00–23:30",
-    allergen: "ייתכנו אלרגנים. יש רגישות? ספרו למלצר לפני ההזמנה.",
-    footer: "המחירים בשקלים · שירות לא כלול",
-  },
-  en: {
-    dir: "ltr",
-    short: "EN",
-    label: "English",
-    cats: { starters: "Starters", grill: "Grill", drinks: "Drinks" },
-    titles: { starters: "Starters", grill: "From the Grill", drinks: "Cold & Hot Drinks" },
-    blurbs: {
-      starters: "Salads, soups and small things that hit the table first — with taboon bread.",
-      grill: "Everything is fired over oak charcoal to order. Expect 12–18 minutes.",
-      drinks: "Fresh-squeezed juice, house soda and sage tea. Refills on the house.",
-    },
-    splash: "Sit down, breathe. The meat is already on the coals.",
-    close: "Back to the menu",
-    hours: "12:00–23:30",
-    allergen: "May contain allergens. Tell your server about any sensitivities before ordering.",
-    footer: "Prices in ILS · Service not included",
-  },
-  ar: {
-    dir: "rtl",
-    short: "ع",
-    label: "العربية",
-    cats: { starters: "مقبلات", grill: "على الفحم", drinks: "مشروبات" },
-    titles: { starters: "المقبلات", grill: "على الفحم", drinks: "مشروبات باردة وساخنة" },
-    blurbs: {
-      starters: "سلطات وشوربات وأطباق صغيرة تصل أولاً — مع خبز الطابون.",
-      grill: "كل شيء يشوى على فحم البلوط عند الطلب. الانتظار ١٢–١٨ دقيقة.",
-      drinks: "عصائر طازجة وصودا بيتية وشاي مريمية. التعبئة على حساب البيت.",
-    },
-    splash: "اجلس واسترح. اللحم على الفحم.",
-    close: "العودة للقائمة",
-    hours: "12:00–23:30",
-    allergen: "قد يحتوي على مسببات حساسية. أخبر النادل قبل الطلب.",
-    footer: "الأسعار بالشيكل · الخدمة غير مشمولة",
-  },
+export const SEED_MENU: MenuData = {
+  categories: SEED_CATEGORIES,
+  dishes: SEED_DISHES,
 };
-
-export function dishesByCategory(category: Category): Dish[] {
-  return DISHES.filter((d) => d.category === category);
-}
-
-export function findDish(id: string): Dish | undefined {
-  return DISHES.find((d) => d.id === id);
-}

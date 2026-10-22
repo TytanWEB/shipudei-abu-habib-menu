@@ -1,9 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  experimental: {
+    serverActions: {
+      // Dish photo uploads come straight from phone cameras.
+      bodySizeLimit: "20mb",
+    },
+  },
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.public.blob.vercel-storage.com",
+      },
+    ],
   },
   turbopack: {
     rules: {

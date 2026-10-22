@@ -1,12 +1,10 @@
-import { T, type Category, type Lang } from "@/data/menu";
+import type { Category, Lang } from "@/lib/menu-types";
 
 export function CategoryIntro({ lang, category }: { lang: Lang; category: Category }) {
-  const t = T[lang];
-
   return (
     <div style={{ padding: "22px 18px 6px" }}>
       <h2 className="font-extrabold" style={{ margin: 0, fontSize: 32, letterSpacing: "-.02em", lineHeight: 1.1 }}>
-        {t.titles[category]}
+        {category.title[lang]}
       </h2>
       <p
         className="font-light"
@@ -18,7 +16,7 @@ export function CategoryIntro({ lang, category }: { lang: Lang; category: Catego
           maxWidth: "36ch",
         }}
       >
-        {t.blurbs[category]}
+        {category.blurb[lang]}
       </p>
     </div>
   );
